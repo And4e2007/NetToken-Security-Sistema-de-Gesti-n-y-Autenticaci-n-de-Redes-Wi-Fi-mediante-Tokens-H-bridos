@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # 1. Base de Datos MySQL
+  nettoken-db:
+    image: mysql:8.0
+    container_name: nettoken_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: nettoken_security
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+
+  # 2. Servidor Backend (API)
+  nettoken-api:
+    build: ./nettoken-backend
+    container_name: nettoken_backend
+    environment:
+      PORT: 3000
+      DB_HOST: nettoken-db # Se conecta al contenedor de arriba automáticamente
+      DB_USER: root
+      DB_PASSWORD: admin
+      DB_NAME: nettoken_security
+      JWT_SECRET: NetToken_Secure_Key_2026
+    ports:
+      - "3000:3000"
+    depends_on:
+      - nettoken-db
+    restart: always
+
+  # 3. Panel Web (Frontend)
+  nettoken-web:
+    build: ./nettoken-frontend
+    container_name: nettoken_frontend
+    ports:
+      - "80:80" # Disponible directamente en http://localhost
+    depends_on:
+      - nettoken-api
+    restart: always
+
+volumes:
+  db_data: # Hace que los datos de MySQL no se borren si apagas Docker
