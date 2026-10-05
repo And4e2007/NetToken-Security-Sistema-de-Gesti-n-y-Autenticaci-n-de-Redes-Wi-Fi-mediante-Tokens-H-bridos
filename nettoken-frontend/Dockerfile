@@ -8,6 +8,9 @@ RUN npm run build
 
 # Etapa 2: Servidor Web Nginx
 FROM nginx:alpine
+# Copiamos nuestra configuración mágica para que React Router funcione
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Copiamos los archivos compilados de la Etapa 1
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
