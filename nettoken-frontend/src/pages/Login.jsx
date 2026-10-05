@@ -8,6 +8,14 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    // ESTA ES LA FUNCIÓN QUE FALTABA
+    const handleChange = (e) => {
+        setCredenciales({
+            ...credenciales,
+            [e.target.name]: e.target.value
+        });
+    };
+
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -15,9 +23,7 @@ const Login = () => {
 
         try {
             const response = await axios.post('http://localhost:3000/api/auth/login', credenciales);
-            // Guardamos el token en el almacenamiento local del navegador
             localStorage.setItem('token', response.data.token);
-            // Redirigimos al Dashboard
             navigate('/admin');
         } catch (err) {
             setError(err.response?.data?.error || 'Error de conexión');
@@ -39,7 +45,7 @@ const Login = () => {
             <div className="card shadow-lg border-0 rounded-4" style={{ maxWidth: '420px', width: '90%' }}>
                 <div className="card-body p-5">
                     
-                    {/* LOGO CORPORATIVO NETTOKEN (Escudo de Red) */}
+                    {/* LOGO CORPORATIVO NETTOKEN */}
                     <div className="text-center mb-4">
                         <div className="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle mb-3 shadow" style={{ width: '70px', height: '70px' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" viewBox="0 0 16 16">
@@ -70,6 +76,7 @@ const Login = () => {
                                 value={credenciales.usuario}
                                 onChange={handleChange}
                                 required 
+                                disabled={loading}
                             />
                             <label htmlFor="usuario" className="text-muted">👤 Usuario Maestro</label>
                         </div>
@@ -84,12 +91,13 @@ const Login = () => {
                                 value={credenciales.password}
                                 onChange={handleChange}
                                 required 
+                                disabled={loading}
                             />
                             <label htmlFor="password" className="text-muted">🔒 Contraseña de Red</label>
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-100 py-3 fw-bold rounded-3 shadow">
-                            Ingresar al Sistema
+                        <button type="submit" className="btn btn-primary w-100 py-3 fw-bold rounded-3 shadow" disabled={loading}>
+                            {loading ? 'Verificando...' : 'Ingresar al Sistema'}
                         </button>
                     </form>
                 </div>
