@@ -30,8 +30,8 @@ Para instalar y ejecutar este proyecto, el entorno anfitrión debe contar como m
 **1. Clonar el repositorio:**
 Abra una terminal y descargue el código fuente:
 ```bash
-git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
-cd TU_REPOSITORIO
+git clone https://github.com/And4e2007/NetTokenSecurity.git
+cd NetTokenSecurity
 ```
 
 **2. Configurar variables de entorno:**
