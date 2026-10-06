@@ -59,7 +59,8 @@ CREATE TABLE registro_auditoria (
 
 -- 3. Inserción de Datos por Defecto (Seeder)
 -- Administrador: admin_seguro / admin123
-INSERT INTO administrador (nombre_usuario, password_hash) VALUES ('admin_seguro', '$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa');
+INSERT IGNORE INTO administrador (nombre_usuario, password_hash) 
+VALUES ('admin_seguro', '$2a$12$zW/c.ZYjVPFDwmHJoEgDi.BNtFBs2ebw/iuOzQmdZKt9A3S5674Ke');
 -- Política estándar de 5 Mbps
 INSERT INTO politica_red (nombre_descriptivo, limite_bajada_kbps, limite_subida_kbps, prioridad) VALUES ('Política Estándar (5 Mbps)', 5000, 2000, 1);
 -- Nodo Local para pruebas
